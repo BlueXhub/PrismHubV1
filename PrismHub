@@ -1,0 +1,387 @@
+-- 🌟 LOADING SCREEN FIRST
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local RunService = game:GetService("RunService")
+
+-- Create GUI
+local LoadingGui = Instance.new("ScreenGui", game.CoreGui)
+LoadingGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+local LoadingFrame = Instance.new("Frame")
+LoadingFrame.Size = UDim2.new(0, 300, 0, 120)
+LoadingFrame.Position = UDim2.new(0.5, -150, 0.5, -60)
+LoadingFrame.BackgroundColor3 = Color3.fromRGB(185, 255, 10)
+LoadingFrame.Parent = LoadingGui
+
+Instance.new("UICorner", LoadingFrame).CornerRadius = UDim.new(0, 12)
+
+local LoadingText = Instance.new("TextLabel", LoadingFrame)
+LoadingText.Size = UDim2.new(1, 0, 0.6, 0)
+LoadingText.Position = UDim2.new(0, 0, 0, 0)
+LoadingText.BackgroundTransparency = 1
+LoadingText.Text = "🔄 Loading"
+LoadingText.TextColor3 = Color3.new(1, 1, 1)
+LoadingText.Font = Enum.Font.SourceSansBold
+LoadingText.TextSize = 20
+
+-- Progress Bar Background
+local ProgressBarBG = Instance.new("Frame", LoadingFrame)
+ProgressBarBG.Size = UDim2.new(0.9, 0, 0.15, 0)
+ProgressBarBG.Position = UDim2.new(0.05, 0, 0.75, 0)
+ProgressBarBG.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Instance.new("UICorner", ProgressBarBG).CornerRadius = UDim.new(0, 6)
+
+-- Progress Bar Fill
+local ProgressBar = Instance.new("Frame", ProgressBarBG)
+ProgressBar.Size = UDim2.new(0, 0, 1, 0)
+ProgressBar.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+Instance.new("UICorner", ProgressBar).CornerRadius = UDim.new(0, 6)
+
+-- Animate Dots + Progress
+task.spawn(function()
+	local dots = 0
+	local duration = 3
+	local steps = 30
+	local interval = duration / steps
+
+	for i = 1, steps do
+		dots = (dots + 1) % 4
+		LoadingText.Text = "🔄 Loading" .. string.rep(".", dots)
+		ProgressBar:TweenSize(
+			UDim2.new(i / steps, 0, 1, 0),
+			Enum.EasingDirection.Out,
+			Enum.EasingStyle.Quad,
+			interval,
+			true
+		)
+		task.wait(interval)
+	end
+
+	LoadingGui:Destroy()
+end)
+
+task.wait(3)
+
+-- 🔐 KEY SYSTEM SETUP
+local KeyURL = "https://rekonise.com/key-system-hjq2n"
+local CorrectKey = "PrismHubV1"
+
+local Whitelist = {
+	-- Add allowed usernames
+	"AnotherUser"
+}
+
+local Blacklist = {
+	-- Add banned usernames
+}
+
+local PremiumUsers = {
+	"JustLivin12"
+	-- Add premium usernames
+}
+
+-- ❌ Kick blacklisted players
+for _, name in ipairs(Blacklist) do
+	if LocalPlayer.Name == name then
+		LocalPlayer:Kick("You are blacklisted from Prism Hub.")
+		return
+	end
+end
+
+local function IsWhitelisted()
+	for _, name in ipairs(Whitelist) do
+		if LocalPlayer.Name == name then return true end
+	end
+	return false
+end
+
+local function IsPremium()
+	for _, name in ipairs(PremiumUsers) do
+		if LocalPlayer.Name == name then return true end
+	end
+	return false
+end
+
+-- ✅ Load Main UI
+local function LoadMainUI()
+	
+
+
+	local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+	local Window = Library.CreateLib("Prism Hub", "Midnight")
+
+	local Tab = Window:NewTab("Hub")
+	Tab:NewSection("Access Granted")
+
+	local MainTab = Window:NewTab("Main")
+	local Section = MainTab:NewSection("Main Features")
+
+	Section:NewSlider("WalkSpeed", "Change your Speed", 100, 16, function(value)
+		local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+		local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+		if humanoid then humanoid.WalkSpeed = value end
+	end)
+
+	Section:NewSlider("JumpPower", "Change Jumppower", 100, 16, function(value)
+		local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+		local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+		if humanoid then humanoid.JumpPower = value end
+	end)
+
+
+	
+
+	local AdminSection = MainTab:NewSection("Infinite Yield")
+	AdminSection:NewButton("Infinite Yield", "Execute IY", function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source', true))()
+	end)
+
+	local FunTab = Window:NewTab("Fun")
+	local FunSection = FunTab:NewSection("Fun Section")
+	FunSection:NewButton("🪖 Equip War Valkyrie Helm", "Gives the War Valk Helm accessory", function()
+	local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+	local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+
+	if humanoid then
+		local assetId = 150401393 -- War Valkyrie Helm ID
+
+		-- Load asset
+		local success, hat = pcall(function()
+			return game:GetService("InsertService"):LoadAsset(assetId)
+		end)
+
+		if success and hat then
+			local accessory = hat:FindFirstChildWhichIsA("Accessory")
+			if accessory then
+				accessory.Parent = character
+			else
+				warn("Accessory not found in asset.")
+			end
+		else
+			warn("Failed to load asset. Possibly due to InsertService restrictions.")
+		end
+	end
+end)
+
+
+	-- 👑 Owner Info Tab
+	local OwnerTab = Window:NewTab("👑 Owner")
+	local OwnerSection = OwnerTab:NewSection("About the Creator")
+	OwnerSection:NewLabel("Script by: JustLivin12")
+	OwnerSection:NewLabel("Version: Prism Hub V1")
+	OwnerSection:NewLabel("Created on: 05/2025")
+
+	-- 📢 Update Section
+	local UpdateTab = Window:NewTab("📢 Updates")
+	local UpdateSection = UpdateTab:NewSection("Latest Changes")
+	UpdateSection:NewLabel("✅ 08/11/2025 - UI & KeySystem Improvements")
+	UpdateSection:NewLabel("⭐ Premium Tab Enabled")
+	UpdateSection:NewLabel("🚀 WalkSpeed Slider Working")
+	UpdateSection:NewLabel("5/11/2025 - New Jump Power Slider (Working)")
+	UpdateSection:NewLabel("5/11/2025 - Added Admin Section")
+	UpdateSection:NewLabel("5/11/2025 - New Progress Bar")
+	UpdateSection:NewLabel("5/14/2025 - New Tab! (FUN)")
+	UpdateSection:NewLabel("5/14/2025 - Removed Theme Selection.")
+	UpdateSection:NewLabel("5/14/2025 - Improvements to the KeySystem!")
+	UpdateSection:NewLabel("5/14/2025 - New Theme!")
+	
+	
+	local ComingSoon = UpdateTab:NewSection("Coming Soon")
+	ComingSoon:NewLabel("Keyless is coming soon.")
+	ComingSoon:NewLabel("New Tabs will be input soon!!!")
+	ComingSoon:NewLabel("Theme Customization for Premium is coming soon.")
+	ComingSoon:NewLabel("We will be adding a new section in the main")
+	ComingSoon:NewLabel("New Tabs will be input by this summer.")
+	-- ⭐ Premium Tab
+	if IsPremium() then
+		local PremiumTab = Window:NewTab("⭐ Premium")
+		local PremiumSection = PremiumTab:NewSection("Welcome Premium User!")
+		
+	end
+end
+
+-- 🔑 Show Key GUI
+local function ShowKeySystem()
+	local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+	ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+	local Frame = Instance.new("Frame")
+	Frame.Size = UDim2.new(0, 320, 0, 300)
+	Frame.Position = UDim2.new(0.5, -160, 0.5, -150)
+	Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	Frame.Active = true
+	Frame.Draggable = true
+	Frame.Parent = ScreenGui
+	Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 12)
+
+	local Title = Instance.new("TextLabel", Frame)
+	Title.Size = UDim2.new(1, 0, 0, 30)
+	Title.BackgroundTransparency = 1
+	Title.Text = "🔐 Prism Hub KeySystem!"
+	Title.Font = Enum.Font.SourceSansBold
+	Title.TextColor3 = Color3.new(1, 0, 0)
+	Title.TextSize = 19
+
+	local TextBox = Instance.new("TextBox", Frame)
+	TextBox.Size = UDim2.new(0.8, 0, 0, 30)
+	TextBox.Position = UDim2.new(0.1, 0, 0.35, 0)
+	TextBox.PlaceholderText = "Enter Prism Key Here"
+	TextBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+	TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+	TextBox.Text = ""
+	TextBox.Font = Enum.Font.SourceSans
+	TextBox.TextSize = 18
+
+	local Submit = Instance.new("TextButton", Frame)
+	Submit.Size = UDim2.new(0.5, 0, 0, 30)
+	Submit.Position = UDim2.new(0.25, 0, 0.6, 0)
+	Submit.Text = "Submit Key"
+	Submit.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+	Submit.TextColor3 = Color3.new(1, 1, 1)
+	Submit.Font = Enum.Font.SourceSansBold
+	Submit.TextSize = 18
+	Instance.new("UICorner", Submit).CornerRadius = UDim.new(0, 8)
+
+
+
+local PremiumInfo = Instance.new("TextButton", Frame)
+PremiumInfo.Size = UDim2.new(0.5, 0, 0, 25)
+PremiumInfo.Position = UDim2.new(0.25, 0, 0.72, 0)
+PremiumInfo.Text = "🔑 Premium Info"
+PremiumInfo.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
+PremiumInfo.TextColor3 = Color3.new(1, 1, 1)
+PremiumInfo.Font = Enum.Font.SourceSansBold
+PremiumInfo.TextSize = 16
+Instance.new("UICorner", PremiumInfo).CornerRadius = UDim.new(0, 8)
+
+PremiumInfo.MouseButton1Click:Connect(function()
+	-- Create Premium Info UI
+	local InfoGui = Instance.new("ScreenGui", game.CoreGui)
+	InfoGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+	local InfoFrame = Instance.new("Frame")
+	InfoFrame.Size = UDim2.new(0, 350, 0, 220)
+	InfoFrame.Position = UDim2.new(0.5, -175, 0.5, -110)
+	InfoFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	InfoFrame.Parent = InfoGui
+	Instance.new("UICorner", InfoFrame).CornerRadius = UDim.new(0, 12)
+
+	local Title = Instance.new("TextLabel", InfoFrame)
+	Title.Size = UDim2.new(1, 0, 0, 30)
+	Title.Position = UDim2.new(0, 0, 0, 0)
+	Title.BackgroundTransparency = 1
+	Title.Text = "⭐ Premium Perks"
+	Title.TextColor3 = Color3.fromRGB(255, 200, 0)
+	Title.Font = Enum.Font.SourceSansBold
+	Title.TextSize = 20
+
+	local Perks = {
+		"• Keyless Access",
+		"• Exclusive Themes",
+		"• Early Access to Features",
+		"• Premium Tab in UI",
+		"• Future Beta Tools",
+		"• Theme Customization Soon"
+	}
+
+	for i, text in ipairs(Perks) do
+		local Label = Instance.new("TextLabel", InfoFrame)
+		Label.Size = UDim2.new(1, -20, 0, 20)
+		Label.Position = UDim2.new(0, 10, 0, 30 + (i - 1) * 25)
+		Label.BackgroundTransparency = 1
+		Label.Text = text
+		Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Label.Font = Enum.Font.SourceSans
+		Label.TextSize = 17
+		Label.TextXAlignment = Enum.TextXAlignment.Left
+	end
+
+	-- Close Button
+	local Close = Instance.new("TextButton", InfoFrame)
+	Close.Size = UDim2.new(0, 30, 0, 30)
+	Close.Position = UDim2.new(1, -35, 0, 5)
+	Close.Text = "X"
+	Close.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+	Close.TextColor3 = Color3.new(1, 1, 1)
+	Close.Font = Enum.Font.SourceSansBold
+	Close.TextSize = 18
+	Instance.new("UICorner", Close).CornerRadius = UDim.new(1, 0)
+
+	Close.MouseButton1Click:Connect(function()
+		InfoGui:Destroy()
+	end)
+end)
+
+PremiumInfo.MouseButton1Click:Connect(function()
+	Notify("⭐ Premium gets Keyless, Themes, & Early Features!", Color3.fromRGB(255, 170, 0))
+end)
+
+
+	local function Notify(text, color)
+		local Label = Instance.new("TextLabel", ScreenGui)
+		Label.Size = UDim2.new(0, 300, 0, 40)
+		Label.Position = UDim2.new(0.5, -150, 0.2, 0)
+		Label.BackgroundColor3 = color
+		Label.BackgroundTransparency = 0.3
+		Label.Text = text
+		Label.TextColor3 = Color3.new(1, 1, 1)
+		Label.Font = Enum.Font.SourceSansBold
+		Label.TextSize = 20
+		task.delay(2, function() Label:Destroy() end)
+	end
+
+	Submit.MouseButton1Click:Connect(function()
+		if TextBox.Text == CorrectKey then
+			Notify("✅ Correct Key!", Color3.fromRGB(0, 200, 0))
+			task.wait(1)
+			ScreenGui:Destroy()
+			LoadMainUI()
+		else
+			Notify("❌ Incorrect Key", Color3.fromRGB(200, 0, 0))
+		end
+	end)
+
+	local GetKey = Instance.new("TextButton", Frame)
+	GetKey.Size = UDim2.new(0.5, 0, 0, 25)
+	GetKey.Position = UDim2.new(0.25, 0, 0.82, 0)
+	GetKey.Text = "Get Key"
+	GetKey.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+	GetKey.TextColor3 = Color3.new(1, 1, 1)
+	GetKey.Font = Enum.Font.SourceSansBold
+	GetKey.TextSize = 16
+	Instance.new("UICorner", GetKey).CornerRadius = UDim.new(0, 8)
+
+	GetKey.MouseButton1Click:Connect(function()
+		setclipboard(KeyURL)
+		Notify("🔗 Key copied to clipboard!", Color3.fromRGB(0, 120, 255))
+	end)
+
+	local ExitButton = Instance.new("TextButton", Frame)
+	ExitButton.Size = UDim2.new(0, 25, 0, 25)
+	ExitButton.Position = UDim2.new(1, -30, 0, 5)
+	ExitButton.Text = "X"
+	ExitButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+	ExitButton.TextColor3 = Color3.new(1, 1, 1)
+	ExitButton.Font = Enum.Font.SourceSansBold
+	ExitButton.TextSize = 18
+	Instance.new("UICorner", ExitButton).CornerRadius = UDim.new(1, 0)
+
+	ExitButton.MouseButton1Click:Connect(function()
+		ScreenGui:Destroy()
+	end)
+
+	-- ⭐ Auto Key if Premium
+	if IsPremium() then
+		TextBox.Text = CorrectKey
+		task.wait(0.5)
+		Submit:FireMouseButton1Click()
+	end
+end
+
+-- ✅ FINAL LAUNCH
+if IsWhitelisted() then
+	LoadMainUI()
+else
+	ShowKeySystem()
+end
+
