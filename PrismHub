@@ -78,6 +78,11 @@ Submit.MouseButton1Click:Connect(function()
         end)
 
 
+        local GameTab = Window:NewTab("Games")
+        local WestSection = GameTab("West Chicago Script")
+        WestSection:NewButton("West Chicago", "Execute the west chicago script", function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/thesigmacorex/RobloxScripts/main/WestChicagoMAR10"))()
+        end)
         local UpdateTab = Window:NewTab("Updates")
         local UpdateSection = UpdateTab:NewSection("Latest Updates")
 
@@ -85,7 +90,7 @@ Submit.MouseButton1Click:Connect(function()
 
 
         local AboutTab = Window:NewTab("About Us")
-        local OwnerSection = Window:NewSection("Owner")
+        local OwnerSection = AboutTab:NewSection("Owner")
         OwnerSection:NewLabel("Owner is JaidenBta5")
         OwnerSection:NewLabel("Founded on 9/1/2025")
 
