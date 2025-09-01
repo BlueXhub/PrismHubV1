@@ -60,7 +60,7 @@ Submit.MouseButton1Click:Connect(function()
         KeyGui:Destroy()
 
         -- 🌟 STEP 5: PRISM HUB UI
-        local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+        local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/BlueXhub/PrismHubV1/refs/heads/main/PrismHub"))()
         local Window = Library.CreateLib("Prism Hub", "DarkTheme")
 
         local Tab = Window:NewTab("Main")
@@ -79,7 +79,7 @@ Submit.MouseButton1Click:Connect(function()
 
 
         local GameTab = Window:NewTab("Games")
-        local WestSection = GameTab("West Chicago Script")
+        local WestSection = GameTab:NewSection("West Chicago Script")
         WestSection:NewButton("West Chicago", "Execute the west chicago script", function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/thesigmacorex/RobloxScripts/main/WestChicagoMAR10"))()
         end)
