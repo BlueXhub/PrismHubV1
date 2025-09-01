@@ -60,15 +60,15 @@ Submit.MouseButton1Click:Connect(function()
         KeyGui:Destroy()
 
         -- 🌟 STEP 5: PRISM HUB UI
-        local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/BlueXhub/PrismHubV1/refs/heads/main/PrismHub"))()
+        local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
         local Window = Library.CreateLib("Prism Hub", "DarkTheme")
 
         local Tab = Window:NewTab("Main")
         local Section = Tab:NewSection("Welcome")
         Section:NewLabel("Access Granted ✅")
 
-        local Tab = Window:NewTab("Player")
-        local Section = Tab:NewSection("Walkspeed / JumpPower")
+        local PlayerTab = Window:NewTab("Player")
+        local Section = PlayerTab:NewSection("Walkspeed / JumpPower")
         Section:NewSlider("WalkSpeed", "Change your walkspeed", 500,0, function(s)
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
         end)
