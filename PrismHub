@@ -1,4 +1,4 @@
--- 🌟 FULL PRISM HUB SCRIPT
+-- 🌟 FULL PRISM HUB SCRIPT (CLEANED)
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -110,12 +110,6 @@ end
 -- =========================
 
 local function LoadMainUI()
-    -- Load main script
-    local mainScript = loadstring(game:HttpGet("https://raw.githubusercontent.com/BlueXhub/PrismHubV1/refs/heads/main/PrismHub"))()  
-    if type(mainScript) == "function" then 
-        mainScript() 
-    end
-
     -- Load Kavo UI
     local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
     local Window = Library.CreateLib("Prism Hub", "Synapse")
