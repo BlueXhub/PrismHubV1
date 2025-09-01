@@ -60,6 +60,67 @@ Submit.MouseButton1Click:Connect(function()
         KeyGui:Destroy()
 
         -- 🌟 STEP 5: PRISM HUB UI
+        local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/BlueXhub/PrismHubV1/refs/heads/main/PrismHub"))()
+        local Window = Library.CreateLib("Prism Hub", "DarkTheme")
+
+        local Tab = Window:NewTab("Main")
+        local Section = Tab:NewSection("Welcome")
+        Section:NewLabel("Access Granted ✅")
+
+        local Tab = Window:NewTab("Player")
+        local Section = Tab:NewSection("Walkspeed / JumpPower")
+        Section:NewSlider("WalkSpeed", "Change your walkspeed", 500,0, function(s)
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+        end)
+
+        Section:NewSlider("JumpPower", "Change your jumppower", 500, 0, function(s)
+            game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+        end)
+
+
+        local UpdateTab = Window:NewTab("Updates")
+        local UpdateSection = UpdateTab:NewSection("Latest Updates")
+
+        local ComingSoonSection = UpdateTab:NewSection("Coming Soon")
+
+
+        local AboutTab = Window:NewTab("About Us")
+        local OwnerSection = Window:NewSection("Owner")
+        OwnerSection:NewLabel("Owner is JaidenBta5")
+        OwnerSection:NewLabel("Founded on 9/1/2025")
+
+    else
+        TextBox.Text = "❌ Wrong Key!"
+        task.wait(1)
+        TextBox.Text = ""
+    end
+end)
+
+-- 🌟 STEP 3: KEY SYSTEM UI
+local KeyGui = Instance.new("ScreenGui", game.CoreGui)
+local Frame = Instance.new("Frame", KeyGui)
+Frame.Size = UDim2.new(0, 250, 0, 120)
+Frame.Position = UDim2.new(0.5, -125, 0.5, -60)
+Frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+
+local TextBox = Instance.new("TextBox", Frame)
+TextBox.Size = UDim2.new(0, 200, 0, 40)
+TextBox.Position = UDim2.new(0.5, -100, 0, 20)
+TextBox.PlaceholderText = "Enter Key Here"
+TextBox.Text = ""
+
+local Submit = Instance.new("TextButton", Frame)
+Submit.Size = UDim2.new(0, 200, 0, 30)
+Submit.Position = UDim2.new(0.5, -100, 0, 70)
+Submit.Text = "Submit Key"
+
+-- 🌟 STEP 4: KEY VALIDATION
+Submit.MouseButton1Click:Connect(function()
+    local entered = TextBox.Text
+    if table.find(Keys, entered) then
+        KeyGui:Destroy()
+
+        -- 🌟 STEP 5: PRISM HUB UI
         local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
         local Window = Library.CreateLib("Prism Hub", "DarkTheme")
 
