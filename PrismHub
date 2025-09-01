@@ -111,6 +111,279 @@ end
 
 local function LoadMainUI()
     -- Load Kavo UI
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/BlueXhub/PrismHubV1/refs/heads/main/PrismHub"))()
+    local Window = Library.CreateLib("Prism Hub", "Synapse")
+
+    -- Hub Tab
+    local Tab = Window:NewTab("Hub")
+    Tab:NewSection("Access Granted")
+
+    -- Main Features
+    local MainTab = Window:NewTab("Main")
+    local Section = MainTab:NewSection("Main Features")
+    Section:NewSlider("WalkSpeed", "Change your Speed", 100, 16, function(value)
+        local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+        local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+        if humanoid then humanoid.WalkSpeed = value end
+    end)
+    Section:NewSlider("JumpPower", "Change Jumppower", 100, 16, function(value)
+        local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+        local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+        if humanoid then humanoid.JumpPower = value end
+    end)
+
+    -- Admin Section
+    local AdminSection = MainTab:NewSection("Infinite Yield")
+    AdminSection:NewButton("Infinite Yield", "Execute IY", function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source', true))()
+    end)
+
+    -- Fun Tab
+    local FunTab = Window:NewTab("Fun")
+    local FunSection = FunTab:NewSection("Fun Section")
+
+    -- Games Tab
+    local GameTab = Window:NewTab("Games")
+    local WestChicagoSection = GameTab:NewSection("West Chicago")
+    WestChicagoSection:NewButton("West Chicago script", "Execute", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/thesigmacorex/RobloxScripts/main/WestChicagoMAR10"))()
+    end)
+
+    -- Other Tab (Server Hop)
+    local OtherTab = Window:NewTab("Other")
+    local ServerHopSection = OtherTab:NewSection("Server Hop")
+    ServerHopSection:NewButton("Server Hop", "Server hop to other servers", function()
+        serverHop()
+    end)
+
+    -- Owner Info Tab
+    local OwnerTab = Window:NewTab("👑 Owner")
+    local OwnerSection = OwnerTab:NewSection("About the Creator")
+    OwnerSection:NewLabel("Script by: JustLivin12")
+    OwnerSection:NewLabel("Version: Prism Hub V1")
+    OwnerSection:NewLabel("Created on: 05/2025")
+
+    -- Updates Tab
+    local UpdateTab = Window:NewTab("📢 Updates")
+    local UpdateSection = UpdateTab:NewSection("Latest Changes")
+    UpdateSection:NewLabel("✅ 08/11/2025 - UI & KeySystem Improvements")
+    UpdateSection:NewLabel("⭐ Premium Tab Enabled")
+    UpdateSection:NewLabel("🚀 WalkSpeed Slider Working")
+    UpdateSection:NewLabel("8/31/2025 - Premium Feature + Serverhop")
+    UpdateSection:NewLabel("5/11/2025 - New Jump Power Slider (Working)")
+    UpdateSection:NewLabel("5/11/2025 - Added Admin Section")
+    UpdateSection:NewLabel("5/14/2025 - New Tab! (FUN)")
+
+    local ComingSoonSection = UpdateTab("Coming Soon")
+    ComingSoonSection:NewLabel("New theme")
+    -- Premium Tab
+    if IsPremium() then
+        local PremiumTab = Window:NewTab("⭐ Premium")
+        local PremiumSection = PremiumTab:NewSection("Welcome Premium User!")
+        PremiumSection:NewButton("Unban VC", "Unbans your vc", function()
+            game:GetService("VoiceChatService"):joinVoice()
+        end)
+    end
+end
+
+-- =========================
+-- 🔑 SHOW KEY SYSTEM GUI
+-- =========================
+
+local function ShowKeySystem()
+    local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 320, 0, 300)
+    Frame.Position = UDim2.new(0.5, -160, 0.5, -150)
+    Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Frame.Active = true
+    Frame.Draggable = true
+    Frame.Parent = ScreenGui
+    Instance.new("UICorner", Frame).CornerRadius = UDim.new(0,12)
+
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, 0, 0, 30)
+    Title.Position = UDim2.new(0, 0, 0, 0)
+    Title.BackgroundTransparency = 1
+    Title.Text = "🔐 Prism Hub KeySystem!"
+    Title.Font = Enum.Font.SourceSansBold
+    Title.TextColor3 = Color3.new(1, 0, 0)
+    Title.TextSize = 19
+    Title.Parent = Frame
+
+    local TextBox = Instance.new("TextBox", Frame)
+    TextBox.Size = UDim2.new(0.8,0,0,30)
+    TextBox.Position = UDim2.new(0.1,0,0.35,0)
+    TextBox.PlaceholderText = "Enter Prism Key Here"
+    TextBox.BackgroundColor3 = Color3.fromRGB(50,50,50)
+    TextBox.TextColor3 = Color3.new(1,1,1)
+    TextBox.Font = Enum.Font.SourceSans
+    TextBox.TextSize = 18
+    TextBox.Text = ""
+
+    local function Notify(msg, color)
+        local Label = Instance.new("TextLabel", ScreenGui)
+        Label.Size = UDim2.new(0,300,0,40)
+        Label.Position = UDim2.new(0.5,-150,0.2,0)
+        Label.BackgroundColor3 = color
+        Label.BackgroundTransparency = 0.3
+        Label.Text = msg
+        Label.TextColor3 = Color3.new(1,1,1)
+        Label.Font = Enum.Font.SourceSansBold
+        Label.TextSize = 20
+        task.delay(2,function() Label:Destroy() end)
+    end
+
+    local Submit = Instance.new("TextButton", Frame)
+    Submit.Size = UDim2.new(0.5,0,0,30)
+    Submit.Position = UDim2.new(0.25,0,0.6,0)
+    Submit.Text = "Submit Key"
+    Submit.BackgroundColor3 = Color3.fromRGB(0,170,0)
+    Submit.TextColor3 = Color3.new(1,1,1)
+    Submit.Font = Enum.Font.SourceSansBold
+    Submit.TextSize = 18
+    Instance.new("UICorner", Submit).CornerRadius = UDim.new(0,8)
+
+    local function KeySubmit()
+        if TextBox.Text == CorrectKey then
+            Notify("✅ Correct Key!", Color3.fromRGB(0,200,0))
+            task.wait(0.5)
+            ScreenGui:Destroy()
+            LoadMainUI()
+        else
+            Notify("❌ Incorrect Key", Color3.fromRGB(200,0,0))
+        end
+    end
+
+    Submit.MouseButton1Click:Connect(KeySubmit)
+
+    -- Auto-fill key for Premium users
+    if IsPremium() then
+        TextBox.Text = CorrectKey
+        task.wait(0.5)
+        KeySubmit()
+    end
+
+    -- Get Key Button
+    local GetKey = Instance.new("TextButton", Frame)
+    GetKey.Size = UDim2.new(0.5,0,0,25)
+    GetKey.Position = UDim2.new(0.25,0,0.82,0)
+    GetKey.Text = "Get Key"
+    GetKey.BackgroundColor3 = Color3.fromRGB(0,120,255)
+    GetKey.TextColor3 = Color3.new(1,1,1)
+    GetKey.Font = Enum.Font.SourceSansBold
+    GetKey.TextSize = 16
+    Instance.new("UICorner", GetKey).CornerRadius = UDim.new(0,8)
+
+    GetKey.MouseButton1Click:Connect(function()
+        setclipboard(KeyURL)
+        Notify("🔗 Key copied to clipboard!", Color3.fromRGB(0,120,255))
+    end)
+
+    -- Exit Button
+    local ExitButton = Instance.new("TextButton", Frame)
+    ExitButton.Size = UDim2.new(0,25,0,25)
+    ExitButton.Position = UDim2.new(1,-30,0,5)
+    ExitButton.Text = "X"
+    ExitButton.BackgroundColor3 = Color3.fromRGB(255,50,50)
+    ExitButton.TextColor3 = Color3.new(1,1,1)
+    ExitButton.Font = Enum.Font.SourceSansBold
+    ExitButton.TextSize = 18
+    Instance.new("UICorner", ExitButton).CornerRadius = UDim.new(1,0)
+
+    ExitButton.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+    end)
+end
+
+-- =========================
+-- 🚀 FINAL LAUNCH
+-- =========================
+
+if IsPremium() then
+    LoadMainUI() -- Premium skips key system
+else
+    ShowKeySystem() -- Everyone else enters key system
+end
+
+local ProgressBar = Instance.new("Frame", ProgressBarBG)
+ProgressBar.Size = UDim2.new(0, 0, 1, 0)
+ProgressBar.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+Instance.new("UICorner", ProgressBar).CornerRadius = UDim.new(0, 6)
+
+-- Animate loading
+for i = 1, 30 do
+    LoadingText.Text = "🔄 Loading" .. string.rep(".", i % 4)
+    ProgressBar:TweenSize(UDim2.new(i / 30, 0, 1, 0),
+        Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.1, true)
+    task.wait(0.1)
+end
+
+-- Destroy loading GUI
+LoadingGui:Destroy()
+
+-- =========================
+-- 🔐 KEY SYSTEM & WHITELIST/PREMIUM
+-- =========================
+
+local KeyURL = "https://rekonise.com/key-system-hjq2n"
+local CorrectKey = "PrismHubV1"
+
+local Whitelist = {"JaidenBta5"}
+local Blacklist = {}
+local PremiumUsers = {"JustLivin12"}
+
+-- Kick blacklisted users
+for _, name in ipairs(Blacklist) do
+    if LocalPlayer.Name == name then
+        LocalPlayer:Kick("You are blacklisted from Prism Hub.")
+        return
+    end
+end
+
+local function IsWhitelisted()
+    return table.find(Whitelist, LocalPlayer.Name) ~= nil
+end
+
+local function IsPremium()
+    return table.find(PremiumUsers, LocalPlayer.Name) ~= nil
+end
+
+-- =========================
+-- 🌐 SERVER HOP FUNCTION
+-- =========================
+
+local function serverHop()
+    local PlaceId = game.PlaceId
+    local AllServers = {}
+    local Success, Response = pcall(function()
+        return HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100"))
+    end)
+
+    if Success and Response and Response.data then
+        for _, v in pairs(Response.data) do
+            if v.playing < v.maxPlayers and v.id ~= game.JobId then
+                table.insert(AllServers, v.id)
+            end
+        end
+    end
+
+    if #AllServers > 0 then
+        local RandomServer = AllServers[math.random(1, #AllServers)]
+        TeleportService:TeleportToPlaceInstance(PlaceId, RandomServer, LocalPlayer)
+    else
+        warn("No available servers found. Try again!")
+    end
+end
+
+-- =========================
+-- ✅ LOAD MAIN UI FUNCTION
+-- =========================
+
+local function LoadMainUI()
+    -- Load Kavo UI
     local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
     local Window = Library.CreateLib("Prism Hub", "Synapse")
 
